@@ -1,0 +1,207 @@
+<div ng-form="form">
+	<h1 class="page-header">{{ml.listing._id? 'Edit boat information' : 'List your boat for sale'}}</h1>
+
+	<!-- Loadind overlay screen -->
+	<div class="loading-overlay" ng-if="ml.loading">
+		<span><i class="fa fa-spinner fa-spin"></i> Loading</span>
+		<uib-progressbar animate="false" value="ml.uploadProgress" type="success" ng-if="ml.uploader.queue.length>0">
+			<b>Uploading photos: {{ml.uploadProgress}}%</b>
+		</uib-progressbar>
+		<uib-progressbar animate="false" value="ml.upload2Progress" type="success" ng-if="ml.uploader2.queue.length>0">
+			<b>Uploading video: {{ml.upload2Progress}}%</b>
+		</uib-progressbar>
+	</div>
+
+	<!-- Default fields -->
+	<div class="col-sm-6 form-horizontal">
+		<div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+			<label for="name" class="control-label col-sm-3">Name</label>
+			<div class="col-sm-9">
+			 	<input type="text" name="name" class="form-control" ng-model="ml.listing.name" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.price.$invalid}">
+			<label for="price" class="control-label col-sm-3">Price</label>
+			<div class="col-sm-9">
+			 	<input type="number" name="price" class="form-control currency" ng-model="ml.listing.price" min="0" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.category.$invalid}">
+			<label for="category" class="control-label col-sm-3">Boat category</label>
+			<div class="col-sm-9">
+				 <select name="category" ng-model="ml.listing.boatCategory" class="form-control" required>
+				 	<option value="Pleasure">Pleasure</option>
+				 	<option value="Commercial">Commercial</option>
+				 </select>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.boatType.$invalid}">
+			<label for="boatType" class="control-label col-sm-3">Boat type</label>
+			<div class="col-sm-9">
+				<select name="boatType" class="form-control" ng-model="ml.listing.boatType" ng-options="b.name as b.name for b in ml.boatCategories" required></select>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.manufacturer.$invalid}">
+			<label for="manufacturer" class="control-label col-sm-3">Manufacturer</label>
+			<div class="col-sm-9">
+				<select name="manufacturer" class="form-control" ng-model="ml.listing.manufacturer" ng-options="m.name as m.name for m in ml.manufacturers" required></select>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.manufactureYear.$invalid}">
+			<label for="manufactureYear" class="control-label col-sm-3">Manufacture year</label>
+			<div class="col-sm-9">
+		 		<input type="number" name="manufactureYear" min="1800" class="form-control" ng-pattern="/^[0-9]{4}$/" ng-model="ml.listing.manufactureYear" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.intention.$invalid}">
+			<label for="intention" class="control-label col-sm-3">Intention</label>
+			<div class="col-sm-9">
+			 	<select name="intention" ng-model="ml.listing.intention" class="form-control" required>
+			 		<option value="buy">Buy</option>
+		 		 	<option value="sell">Sell</option>
+		 		 	<option value="auction">Auction</option>
+		 		 	<option value="rent">Rent</option>
+			 	</select>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.city.$invalid}">
+			<label for="city" class="control-label col-sm-3">City</label>
+			<div class="col-sm-9">
+		 		<input type="text" name="city" class="form-control" ng-model="ml.listing.city" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.country.$invalid}">
+			<label for="country" class="control-label col-sm-3">Country</label>
+			<div class="col-sm-9">
+		 		<input type="text" name="country" class="form-control" ng-model="ml.listing.country" required />
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Custom fields -->
+	<div class="col-sm-6 form-horizontal">
+		<div class="form-group" ng-repeat="field in ml.adFormFields" ng-class="{'has-error': form.{{field.model}}.$invalid}" ng-switch on="field.type" ng-if="field.active">
+			<label class="control-label col-sm-3" for="{{field._id}}">{{field.name}}
+				<input ng-switch-when="Yes/No" class="big-checkbox big-checkbox-fix" name="{{field.model}}" ng-model="ml.listing[field.model]" type="checkbox" />
+			</label>
+			<div class="col-sm-9">
+				<input class="form-control" name="{{field.model}}" ng-model="ml.listing[field.model]" ng-switch-when="Short text" type="text" ng-required="!field.optional" />
+				<textarea class="form-control" name="{{field.model}}" ng-model="ml.listing[field.model]" ng-switch-when="Long text" ng-required="!field.optional"></textarea>
+				<select class="form-control" name="{{field.model}}" ng-model="ml.listing[field.model]" ng-switch-when="Options" ng-required="!field.optional" ng-options="option for option in field.options">
+					<option value=""></option>
+				</select>
+				<input class="form-control" name="{{field.model}}" ng-model="ml.listing[field.model]" ng-switch-when="Email" type="email" ng-required="!field.optional" />
+				<input class="form-control" name="{{field.model}}" ng-init="ml.calOpened[$index] = false" ng-model="ml.listing[field.model]" ng-switch-when="Date" type="text" datepicker-popup="MM/dd/yyyy" is-open="settings.calOpened[$index]" show-button-bar="false" readonly ng-click="ml.calOpened[$index]=!ml.calOpened[$index]" ng-required="!field.optional">
+				<timepicker name="{{field.model}}" class="timepicker-fix" ng-model="ml.listing[field.model]" ng-switch-when="Time" ng-required="!field.optional" hour-settings.step="1" minute-settings.step="1" show-meridian="true"></timepicker>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-class="{'has-error': form.description.$invalid}">
+		<label class="control-label">Description</label>
+		<textarea name="description" class="form-control" ng-model="ml.listing.description" required></textarea>
+	</div>
+
+	<div class="col-sm-12" ng-if="ml.listing._id">
+		<h4>Photos</h4>
+		<div class="col-sm-12">
+			<div ng-repeat="photo in ml.listing.photos" class="edit-img-thumbnail col-xs-12 col-sm-4 col-lg-3">
+				<div>
+					<a class="btn btn-danger btn-xs" ng-click="ml.removePhoto(photo)"><i class="fa fa-times"></i></a>
+					<img src="{{ml.listing | adPhoto : $index}}" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-12">
+		<h4>Upload Photos</h4>
+		<span class="btn btn-primary btn-file" style="margin-bottom: 1em;">
+			Select file(s)
+			<input type="file" nv-file-select multiple uploader="ml.uploader" />
+		</span>
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in ml.uploader.queue">
+					<td>
+						<strong>{{item.file.name}}</strong>
+						<div ng-thumb="{file: item._file, height: 100}"></div>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger btn-xs" tooltip="Remove" ng-click="item.remove()">
+							<i class="fa fa-times"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="col-sm-12" ng-if="ml.listing.video">
+		<h4>Video</h4>
+		<div class="col-sm-12">
+			<div class="edit-img-thumbnail col-xs-12 col-sm-4 col-lg-3">
+				<div>
+					<a class="btn btn-danger btn-xs" ng-click="ml.removePhoto(photo)"><i class="fa fa-times"></i></a>
+					<img src="{{ml.listing | adPhoto : $index}}" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-12">
+		<h4>Upload Video</h4>
+		<span class="btn btn-primary btn-file" style="margin-bottom: 1em;">
+			Select file(s)
+			<input type="file" nv-file-select uploader="ml.uploader2" />
+		</span>
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in ml.uploader2.queue">
+					<td>
+						<strong>{{item.file.name}}</strong>
+						<div ng-thumb="{file: item._file, height: 100}"></div>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger btn-xs" tooltip="Remove" ng-click="item.remove()">
+							<i class="fa fa-times"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="col-sm-12" ng-if="!ml.listing._id">
+		<div class="form-group checkbox">
+			<label>
+				<input type="checkbox" ng-model="terms" required/>
+				I agree to the <a ng-click="ml.termsAndConditions()">terms and conditions</a> of listing my boat on yoboats.com
+			</label>
+		</div>
+	</div>
+
+	<div class="col-sm-12 btn-group btn-group-fix">
+		<a class="btn btn-primary" ng-click="ml.back()">
+			<i class="fa fa-chevron-left"></i>
+			Back
+		</a>
+		<button type="button" class="btn btn-success pull-right" ng-click="ml.save()" ng-disabled="form.$invalid" ng-if="!ml.loading">
+			Save
+			<i class="fa fa-check"></i>
+		</button>
+	</div>
+</div>

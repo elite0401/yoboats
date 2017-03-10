@@ -1,0 +1,52 @@
+<div class="modal-header">
+	<h3>Payment plan</h3>
+</div>
+<div class="modal-body">
+	<form name="form" class="form-horizontal">
+		<div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+			<label class="control-label col-sm-3">Name:</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="np.newPlan.name" name="name" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.amount.$invalid}">
+			<label class="control-label col-sm-3">Billing:</label>
+			<div class="col-sm-9">
+				<!-- ng-pattern="/^[0-9]+(?:\.[0-9]{2})$/"  -->
+				<input type="number" class="form-control" min="0" ng-model="np.newPlan.amount" name="amount" placeholder="99.99" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.interval.$invalid}">
+			<label class="control-label col-sm-3">Billing period:</label>
+			<div class="col-sm-9 form-inline">
+				<input type="number" class="form-control" min="1" step="1" ng-model="np.newPlan.interval" ng-pattern="/^[0-9]{1,2}$/" name="interval" required />
+				<select class="form-control" ng-model="np.newPlan.period">
+					<option value="month">Month(s)</option>
+					<option value="week">Week(s)</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.allowed.$invalid}">
+			<label class="control-label col-sm-3">Publications allowed:</label>
+			<div class="col-sm-9">
+				<input type="number" class="form-control" min="1" ng-model="np.newPlan.publicationsAllowed" name="allowed" required />
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.trial.$invalid}">
+			<label class="control-label col-sm-3">Trial days:</label>
+			<div class="col-sm-9">
+				<input type="number" class="form-control" min="0" ng-model="np.newPlan.trial" name="allowed" required />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Public:</label>
+			<div class="col-sm-9">
+				<input type="checkbox" class="big-checkbox big-checkbox-fix" ng-model="np.newPlan.public" />
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-success" ng-click="$close(np.newPlan)" ng-disabled="form.$invalid">Save</button>
+	<a class="btn btn-default" ng-click="$dismiss()">Cancel</a>
+</div>

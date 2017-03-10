@@ -1,0 +1,48 @@
+<div class="modal-header">
+	<h3>New custom field</h3>
+</div>
+<div class="modal-body" ng-form="form">
+	<div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+		<label class="control-label">Name:</label>
+		<input type="text" class="form-control" ng-model="newField.name" name="name" required />
+	</div>
+	<div class="form-group" ng-class="{'has-error': form.order.$invalid}">
+		<label class="control-label">Order:</label>
+		<input type="number" class="form-control" min="0" ng-model="newField.order" name="order" required />
+	</div>
+	<div class="form-group" ng-class="{'has-error': form.type.$invalid}">
+		<label class="control-label">Type:</label>
+		<select class="form-control" name="type" ng-model="newField.type" required>
+			<option>Short text</option>
+			<option>Long text</option>
+			<option>Yes/No</option>
+			<option>Options</option>
+			<option>Email</option>
+			<option>Date</option>
+			<option>Time</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<label class="control-label">Optional: </label>
+		<input type="checkbox" class="big-checkbox big-checkbox-fix" ng-model="newField.optional" name="optional" />
+	</div>
+	<div class="form-group">
+		<label class="control-label">Active: </label>
+		<input type="checkbox" class="big-checkbox big-checkbox-fix" ng-model="newField.active" name="active" />
+	</div>
+	<div ng-if="newField.type == 'Options'">
+		<label class="control-label">Options: &nbsp;
+			<a class="btn btn-primary btn-xs" ng-click="newField.options.push('')"><i class="fa fa-plus"></i></a>
+			&nbsp;
+			<a class="btn btn-danger btn-xs" ng-click="newField.options.pop()"><i class="fa fa-minus"></i></a>
+		</label>
+		<div ng-repeat="option in newField.options track by $index" class="form-group" ng-class="{'has-error': form.option{{$index}}.$invalid}">
+			<label class="control-label">Option {{$index + 1}}:</label>
+			<input type="text" class="form-control" name="option{{$index}}" ng-model="newField.options[$index]" required />
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-success" ng-click="$close(newField)" ng-disabled="form.$invalid">Save</button>
+	<a class="btn btn-default" ng-click="$dismiss()">Cancel</a>
+</div>

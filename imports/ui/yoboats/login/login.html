@@ -1,0 +1,22 @@
+<div class="panel-heading">
+	<h3 class="panel-title">Login</h3>
+</div>
+<div class="panel-body">
+	<form name="form" ng-submit="l.login()">
+		<div class="form-group" ng-class="{'has-error': form.username.$invalid}">
+			<input type="text" name="username" ng-model="l.username" class="form-control" placeholder="Email" required autofocus />
+		</div>
+		<div class="form-group" ng-class="{'has-error': form.password.$invalid}">
+			<input type="password" name="password" ng-model="l.password" class="form-control" placeholder="Password" required />
+		</div>
+
+		<button type="submit" class="btn btn-lg btn-success btn-block" ng-disabled="form.$invalid">Login</button>
+		<a ui-sref="login.recover-password" class="btn btn-lg btn-block btn-primary">Recover password</a>
+		<a ui-sref="login.register" class="btn btn-lg btn-block btn-primary">Register</a>
+		<hr/>
+		<a class="btn btn-lg btn-social btn-facebook btn-block" ng-click="l.facebookLogin()">
+			<i class="fa fa-facebook"></i>
+			Login with Facebook
+		</a>
+	</form>
+</div>

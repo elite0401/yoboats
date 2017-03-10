@@ -1,0 +1,29 @@
+<h2>Ad's manage</h2>
+<table class="table table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>User's name</th>
+			<th>Price</th>
+			<th>Intention</th>
+			<th>Published</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="listing in am.listings">
+			<td>{{listing.name}}</td>
+			<td>{{listing.owner}}</td>
+			<td>{{listing.price | currency}}</td>
+			<td>{{listing.intention}}</td>
+			<td>{{listing.published? 'Yes' : 'No'}}</td>
+			<td>
+				<a class="btn btn-sm btn-primary" ui-sref="admin.edit-listing(listing)"><i class="fa fa-pencil"></i></a>
+				<a class="btn btn-sm btn-danger" ng-click="am.remove(listing)"><i class="fa fa-times"></i></a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="text-center col-sm-12">
+	<uib-pagination total-items="am.pagination.total" ng-model="am.pagination.page" max-size="7" class="pagination-sm" boundary-link-numbers="true"></uib-pagination>
+</div>

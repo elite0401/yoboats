@@ -1,0 +1,36 @@
+<div id="ad-form-settings">
+	<h2>
+		Payment plan's settings
+		<a ng-click="ps.newPlan()" class="btn btn-success pull-right">Add new plan</a>
+	</h2>
+	<div>
+		<h3>Plans</h3>
+		<table class="table table-striped table-hover col-sm-12">
+			<thead>
+				<tr>
+					<th class="text-center">Name</th>
+					<th class="text-center">Publications allowed</th>
+					<th class="text-center">Public</th>
+					<th class="text-center">Active</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody class="text-center">
+				<tr ng-repeat="plan in ps.plans">
+					<td>{{plan.name}}</td>
+					<td>{{plan.publicationsAllowed}}</td>
+					<td>
+						<input type="checkbox" ng-model="plan.public" ng-click="ps.makePublic(plan)" class="big-checkbox">
+					</td>
+					<td>
+						<toggle-switch ng-model="plan.active" ng-click="ps.activate(plan)"></toggle-switch>
+					</td>
+					<td>
+						<a class="btn btn-primary btn-sm" ng-click="ps.edit(plan)"><i class="fa fa-pencil"></i></a>
+						<a class="btn btn-danger btn-sm" ng-click="ps.remove(plan)"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,93 @@
+<h1 class="page-header">My billing</h1>
+<div class="col-sm-12" ng-if="b.loading">
+	<p class="text-center">
+		<i class="fa fa-spin fa-spinner fa-3x"></i>
+	</p>
+</div>
+<div class="billing_wrap col-xs-12" ng-if="!b.loading">
+	<h3>
+		My cards
+		<a class="btn btn-primary btn-sm pull-right" ng-click="b.addCard()">Add card</a>
+	</h3>
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-4 col-md-3" ng-repeat="source in b.customer.sources.data">
+			<div class="my-card">
+				<div class="card-actions">
+					<span class="btn btn-default btn-sm" ng-if="source.id==b.customer.default_source">Default card</span>
+					<a class="btn btn-primary btn-sm" ng-click="b.makeDefault(source)" ng-if="source.id!=b.customer.default_source">Make default</a>
+					<a class="btn btn-danger btn-sm" ng-click="b.removeCard(source)">Remove</a>
+				</div>
+				<p ng-if="source.brand=='Visa' || source.brand=='MasterCard' || source.brand=='JCB' || source.brand=='Discover'">XXXX XXXX XXXX {{source.last4}}</p>
+				<p ng-if="source.brand=='American Express'">XXXX XXXXXX X{{source.last4}}</p>
+				<p ng-if="source.brand=='Diners Club'">XXXX XXXX XX{{source.last4}}</p>
+				<div class="card-expiry">{{source.exp_month}}/{{source.exp_year}}</div>
+				<div class="card-logo">
+					<i class="fa fa-cc-visa" ng-if="source.brand=='Visa'"></i>
+					<i class="fa fa-cc-mastercard" ng-if="source.brand=='MasterCard'"></i>
+					<i class="fa fa-cc-jcb" ng-if="source.brand=='JCB'"></i>
+					<i class="fa fa-cc-discover" ng-if="source.brand=='Discover'"></i>
+					<i class="fa fa-cc-amex" ng-if="source.brand=='American Express'"></i>
+					<i class="fa fa-cc-diners-club" ng-if="source.brand=='Diners Club'"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="billing_wrap col-xs-12" ng-if="!b.loading">
+	<h3>Available plans</h3>
+
+	<div class="mobile row">
+		<div class="col-sm-3 col-md-4" ng-repeat="plan in b.plans">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h3>
+					{{plan.name}}
+					<span ng-if="plan._id==b.currentUser.profile.plan">(current)</span>
+				</h3></div>
+				<div class="panel-body">
+					<h1>{{plan.amount | currency}}</h1>
+					<p>Billing cycle: <b>{{plan.interval}} {{plan.period}}(s)</b></p>
+					<p>{{plan.publicationsAllowed}} ads allowed</p>
+					<p ng-if="b.customer.sources.data.length===0">You need to register a card in order to subscribe to a plan</p>
+					<div ng-if="b.customer.sources.data.length>0">
+						<a class="btn btn-primary btn-sm" ng-click="b.selectPlan(plan)" ng-if="plan._id!=b.currentUser.profile.plan">
+							<span ng-if="!b.currentUser.profile.plan">Subscribe</span>
+							<span ng-if="b.currentUser.profile.plan">Change plan</span>
+						</a>
+						<a class="btn btn-danger btn-sm" ng-click="b.unsubscribe()" ng-if="plan._id==b.currentUser.profile.plan">Unsubscribe</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <table class="desktop table table-striped">
+		<thead>
+			<tr>
+				<th>Plan name</th>
+				<th>Ads allowed</th>
+				<th>Billing cycle</th>
+				<th>Price</th>
+				<th>&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="plan in b.plans">
+				<td>
+					{{plan.name}}
+					<span ng-if="plan._id==b.currentUser.profile.plan">(current)</span>
+				</td>
+				<td>{{plan.publicationsAllowed}}</td>
+				<td>{{plan.interval}} {{plan.period}}(s)</td>
+				<td>{{plan.amount | currency}}</td>
+				<td ng-if="b.customer.sources.data.length===0">You need to register a card in order to subscribe to a plan</td>
+				<td ng-if="b.customer.sources.data.length>0">
+					<a class="btn btn-primary btn-sm" ng-click="b.selectPlan(plan)" ng-if="plan._id!=b.currentUser.profile.plan">
+						<span ng-if="!b.currentUser.profile.plan">Subscribe</span>
+						<span ng-if="b.currentUser.profile.plan">Change plan</span>
+					</a>
+					<a class="btn btn-danger btn-sm" ng-click="b.unsubscribe()" ng-if="plan._id==b.currentUser.profile.plan">Unsubscribe</a>
+				</td>
+			</tr>
+		</tbody>
+	</table> -->
+</div>

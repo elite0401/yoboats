@@ -1,0 +1,115 @@
+<div class="col-sm-12">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel">
+				<h3 class="pull-left">{{lv.listing.year}} {{lv.listing.name}}<br><small ng-if="lv.listing.city">{{lv.listing.city}}, {{lv.listing.country}}</small></h3>
+				<h3 class="pull-right text-right">{{lv.listing.price | currency}} USD<br><small>For {{lv.listing.intention}}</small></h3>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8 col-md-8 col-lg-8">
+			<div id="photoMain">
+				<img ng-src="{{lv.mainPhoto}}" ng-show="lv.galleryImage" class="img-responsive " style="max-height:100%; height:auto;" />
+				<div ng-show="lv.galleryVideo">
+					<video poster="{{lv.video.poster}}" preload="none" controls src="{{lv.video.url}}" style="max-height: 100%;
+    height: auto;"></video>
+    			</div>
+			</div>
+			<div id="thumbs">
+				<ul class="list-inline">
+<!-- 					<li ng-repeat="photo in lv.listing.photos" ng-click="lv.mainPhoto = (lv.listing | adPhoto : $index)">
+						<img ng-src="{{lv.listing | adPhoto : $index}}" height="60px" />
+					</li>
+ -->
+					<li ng-repeat="photo in lv.listing.photos" ng-click="lv.setMainPhoto ('image', (lv.listing | adPhoto : $index))">
+						<img ng-src="{{lv.listing | adPhoto : $index}}" height="60px" />
+					</li>
+					<li class="video" ng-if="lv.listing.video" ng-click="lv.setMainPhoto('video', lv.video.url)">
+						<img ng-src="{{lv.video.poster}}" height="60px" />
+						<i class="fa fa-play" aria-hidden="true"></i>
+					</li>
+				</ul>
+			</div>
+<!-- 			<div ng-if="lv.listing.video" style="text-align: center; margin-top: 15px; margin-bottom: 15px">
+				<video poster="{{lv.video.poster}}" preload="none" controls src="{{lv.video.url}}" style="width: auto; max-height: 400px"></video>
+			</div> -->
+		</div>
+		<div class="col-sm-4">
+			<div class="social_list">
+				<p>Share this boat</p>
+				<ul class="list-inline">
+					<li><a socialshare socialshare-provider="facebook" style="cursor:pointer;"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+					<li><a socialshare socialshare-provider="twitter" style="cursor:pointer;"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+					<li><a socialshare socialshare-provider="linkedin" style="cursor:pointer;"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+					<li><a socialshare socialshare-provider="google+" style="cursor:pointer;"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+					<li><a socialshare socialshare-provider="pinterest" socialshare-media="{{lv.mainPhoto}}" style="cursor:pointer;"><i class="fa fa-pinterest-square fa-2x"></i></a></li>
+			  </ul>
+			</div>
+			<hr>
+			<a ui-sref="seller.listing({id: lv.listing.userId})">See sellers other listings</a>
+			<hr>
+			<h4 class="contactfomheading">CONTACT OWNER NOW!</h4>
+			<div class="contact_form">
+				<form name="contactSeller" >
+					<div class="form-group" ng-class="{'has-error': contactSeller.name.$invalid && !contactSeller.$pristine}">
+						<input ng-required="true" type="text" ng-model="lv.contact.name" name="name" class="form-control" placeholder="Name">
+					</div>
+					<div class="form-group" ng-class="{'has-error': contactSeller.email.$invalid && !contactSeller.$pristine}">
+						<input ng-required="true" type="email" ng-model="lv.contact.email" name="email" class="form-control" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<input type="text" ng-model="lv.contact.phone" name="phone" class="form-control" placeholder="Phone">
+					</div>
+					<div class="form-group" ng-class="{'has-error': contactSeller.message.$invalid && !contactSeller.$pristine}">
+						<textarea ng-required="true" ng-model="lv.contact.message" name="message" class="form-control" placeholder="Message"></textarea>
+					</div>
+					<div class="form-group">
+						<button ng-click="lv.contactHim(contactSeller)" ng-disabled="contactSeller.$invalid || !lv.captchaResponse" class="form-control">
+							<span><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;</span>SEND EMAIL
+						</button>
+					</div>
+					<div class="form-group">
+						<div vc-recaptcha key="lv.captcha.publicKey" on-success="lv.setResponse(response)" on-expire="lv.cbExpiration()"></div>
+					</div>
+					<i class="fa fa-shield"></i><span class="contactformprivacy"> We respect your privacy &amp; will never spam you</span>
+				</form>
+			 </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-10">
+			<tabset>
+			<tab class="uitab" heading="Basic">
+					<table class="table table-striped">
+						<tr><td>Name</td><td>{{lv.listing.name}}</td></tr>
+						<tr><td>Price</td><td>{{lv.listing.price | currency}} USD</td></tr>
+						<tr><td>Boat category</td><td>{{lv.listing.boatCategory}}</td></tr>
+						<tr><td>Manufacturer</td><td>{{lv.listing.manufacturer}}</td></tr>
+						<tr><td>Manufacture Year</td><td>{{lv.listing.manufactureYear}}</td></tr>
+						<tr><td>Intention</td><td>{{lv.listing.intention}}</td></tr>
+						<tr><td>City</td><td>{{lv.listing.city}}</td></tr>
+						<tr><td>Country</td><td>{{lv.listing.country}}</td></tr>
+					 </table>
+					 <div style="font-weight: bold">Description:</div>
+					 <div>{{lv.listing.description}}</div>
+				</tab>
+				<tab class="uitab" heading="More" ng-if="lv.adFormFields.length > 0">
+					<div class="panel panel-warning">
+						<table class="table">
+							<tr ng-repeat="field in lv.adFormFields" ng-switch on="field.type">
+								<td width="40%">{{field.name}}</td>
+								<td ng-switch-when="Date">{{ lv.listing[field.model] | date: 'mediumDate' }}</td>
+								<td ng-switch-when="Time">{{ lv.listing[field.model] | date: 'shortTime' }}</td>
+								<td ng-switch-default>{{ lv.listing[field.model] }}</td>
+								<td ng-switch-when="Yes/No" ng-class="{'text-success': lv.listing[field.model], 'text-danger': !lv.listing[field.model]}">
+									<i class="fa fa-2x" ng-class="{'fa-check': lv.listing[field.model] , 'fa-close': !lv.listing[field.model]}"></i>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</tab>
+			</tabset>
+		</div>
+	</div>
+</div>

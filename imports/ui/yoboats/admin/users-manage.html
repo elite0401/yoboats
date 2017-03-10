@@ -1,0 +1,33 @@
+<div id="ad-form-settings">
+	<h2>Users settings</h2>
+	<div>
+		<h3>Users</h3>
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+                    <th>Plan</th>
+					<th>Role</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in um.users">
+					<td>{{user.profile.name}}</td>
+					<td>{{user.profile.email}}{{user.emails[0].address}}</td>
+					<td>{{um.getPlan(user.profile.plan)}}</td>
+					<td>{{um.isAdmin(user)? 'Administrator' : 'User'}}</td>
+					<td>
+						<a class="btn btn-primary btn-sm" ng-click="um.edit(user)" tooltip="Edit user"><i class="fa fa-pencil"></i></a>
+						<a class="btn btn-danger btn-sm" ng-click="um.remove(user)" tooltip="Remove user"><i class="fa fa-times"></i></a>
+						<a class="btn btn-warning btn-sm" ng-click="um.promote(user)" ng-if="!um.isAdmin(user)" tooltip="Promote to admin"><i class="fa fa-angle-double-up"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="text-center col-sm-12">
+			<uib-pagination total-items="um.pagination.total" ng-model="um.pagination.page" max-size="7" class="pagination-sm" boundary-link-numbers="true"></uib-pagination>
+		</div>
+	</div>
+</div>

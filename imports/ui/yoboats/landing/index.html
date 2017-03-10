@@ -1,0 +1,100 @@
+<div>
+	<div class="col-sm-12" style="padding: 0">
+		<div class="col-sm-6">
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="search.name" check-enter="ll.search()" placeholder="Search for boat">
+				<span class="input-group-addon i-do-something" ng-click="ll.search()"><i class="fa fa-search"></i></span>
+			</div>
+		</div>
+		<div class="col-sm-6" id="select-filter">
+			<div class="btn-group">
+		        <label class="btn btn-primary" ng-model="ll.searchParams.category" uib-btn-radio="'Pleasure'">Pleasure</label>
+		        <label class="btn btn-primary" ng-model="ll.searchParams.category" uib-btn-radio="'All'">All</label>
+		        <label class="btn btn-primary" ng-model="ll.searchParams.category" uib-btn-radio="'Commercial'">Commercial</label>
+		    </div>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="col-sm-4">
+			<div class="col-sm-12">
+				<h5 style="color:#13A89A;font-weight:700; font-size: 13px;">PRICE</h5>
+				<div class="form-group col-sm-6">
+					<input min="1" name="minprice" class="form-control " type="number" ng-model="ll.searchParams.minPrice" placeholder="Min ..">
+				</div>
+				<div class="form-group col-sm-6">
+					<input min="{{ll.searchParams.minPrice+1}}" name="maxprice" class="form-control " type="number" ng-model="ll.searchParams.maxPrice" placeholder="Max ..">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="col-sm-12">
+				<h5 style="color:#13A89A;font-weight:700; font-size: 13px;">SORT BY</h5>
+				<div class="col-sm-12">
+					<div class="form-group">
+						<select name="intention" ng-model="ll.searchParams.sort" class="form-control" ng-options="c.l for c in ll.sortOptions"></select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-class="{'col-xs-12 col-sm-6': ll.searchParams.category=='All', 'col-xs-12 col-sm-12': ll.searchParams.category=='Pleasure'}" ng-if="ll.searchParams.category!='Commercial'">
+	<h3 class="center-block text-center">Pleasure boats</h3>
+
+	<div class="row">
+		<div class="boat-add" ng-class="{'col-xs-12 col-lg-6': ll.searchParams.category == 'All', 'col-xs-12 col-sm-6 col-lg-3': ll.searchParams.category == 'Pleasure'}" ng-repeat="ad in ll.listings.pleasure">
+			<div class="boat-add-inner">
+				<img class="image-container i-do-something" ui-sref="listing.view(ad)" src="{{ad | adPhoto}}"/>
+				<div>
+					<h3><a ui-sref="listing.view(ad)">{{ad.name}}</a></h3>
+					<ul>
+						<li><i class="fa fa-fw fa-dollar"></i> {{ad.price | currency}} USD</li>
+						<li><i class="fa fa-fw fa-map-marker"></i> {{ad.city}}, {{ad.country}}</li>
+						<li><i class="fa fa-fw fa-anchor"></i> {{ad.manufactureYear}}</li>
+						<li class="i-do-something" ng-if="ll.currentUser">
+							<i class="fa fa-video-camera" style="position: absolute; bottom: 50px; right: 15px; font-size: 1.5em" ng-if="ad.video"></i>
+							<i class="fa favorites-icon" ng-class="{'fa-star-o': !ll.inFavorites(ad._id), 'fa-star': ll.inFavorites(ad._id)}" ng-click="ll.addToFavorites(ad._id)"></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<uib-pagination total-items="ll.searchParams.pleasure.total" ng-model="ll.searchParams.pleasure.page" max-size="7" class="pagination-sm" boundary-link-numbers="true"></uib-pagination>
+		</div>
+	</div>
+</div>
+
+<div ng-class="{'col-xs-12 col-sm-6': ll.searchParams.category=='All', 'col-xs-12 col-sm-12': ll.searchParams.category=='Commercial'}" ng-if="ll.searchParams.category!='Pleasure'">
+	<h3 class="center-block text-center">Commercial boats</h3>
+
+	<div class="row">
+		<div class="boat-add" ng-class="{'col-xs-12 col-lg-6': ll.searchParams.category == 'All', 'col-xs-12 col-sm-6 col-lg-3': ll.searchParams.category == 'Commercial'}" ng-repeat="ad in ll.listings.commercial">
+			<div class="boat-add-inner">
+				<img class="image-container i-do-something" ui-sref="listing.view(ad)" src="{{ad | adPhoto}}"/>
+				<div>
+					<h3><a ui-sref="listing.view(ad)">{{ad.name}}</a></h3>
+					<ul>
+						<li><i class="fa fa-fw fa-dollar"></i> {{ad.price | currency}} USD</li>
+						<li><i class="fa fa-fw fa-map-marker"></i> {{ad.city}}, {{ad.country}}</li>
+						<li><i class="fa fa-fw fa-anchor"></i> {{ad.manufactureYear}}</li>
+						<li class="i-do-something" ng-if="currentUser">
+							<i class="fa favorites-icon" ng-class="{'fa-star-o': !ll.inFavorites(ad._id), 'fa-star': ll.inFavorites(ad._id)}" ng-click="ll.addToFavorites(ad._id)">
+							</i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<uib-pagination total-items="ll.searchParams.commercial.total" ng-model="ll.searchParams.commercial.page" max-size="7" class="pagination-sm" boundary-link-numbers="true"></uib-pagination>
+		</div>
+	</div>
+</div>

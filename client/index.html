@@ -1,0 +1,23 @@
+<head>
+	<base href="/">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="fragment" content="!"/>
+
+	<meta property="og:title" content="{{ngMeta['og:title']}}" />
+	<meta property="og:image" content="{{ngMeta['og:image']}}" />
+	<meta property="og:description" content="{{ngMeta['og:description']}}" />
+	<meta property="fb:app_id" content="{{ngMeta['fb:app_id']}}" />
+	<meta property="og:site_name" content="YoBoats" />
+
+	<title>YoBoats.com</title>
+
+	<link rel="icon" type="image/png" href="/fav.ico" />
+
+	<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+</head>
+<body>
+	<div ui-view=""></div>
+</body>

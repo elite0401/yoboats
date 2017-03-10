@@ -1,0 +1,66 @@
+<div class="modal-header">
+	<h4 class="modal-title">Create Facebook ad</h4>
+</div>
+<table class="table table-bordered table-striped" style="margin: 0">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Category</th>
+			<th>Type</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="listing in fbc.listings">
+			<td>{{listing.name}}</td>
+			<td>{{listing.boatCategory}}</td>
+			<td>{{listing.boatType}}</td>
+			<td>
+				<a class="btn btn-primary btn-xs" ng-click="fbc.selectedListings.push(listing)" ng-if="fbc.canAdd(listing._id)">Add</a>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4">
+				<uib-pagination total-items="fbc.pagination.total" ng-model="fbc.pagination.page" max-size="7" class="pagination-sm" boundary-link-numbers="true"></uib-pagination>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+<div class="modal-body" ng-form="form">
+	<div class="form-group" ng-class="{'has-error': form.message.$invalid}">
+		<label class="control-label">Message</label>
+		<input type="text" class="form-control" ng-model="message" name="message" required />
+	</div>
+	<div class="form-group" ng-class="{'has-error': selectedListings.length<2}">
+		<label class="control-label">Selected listings</label>
+	</div>
+</div>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Category</th>
+			<th>Type</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="listing in fbc.selectedListings">
+			<td>{{listing.name}}</td>
+			<td>{{listing.boatCategory}}</td>
+			<td>{{listing.boatType}}</td>
+			<td>
+				<a class="btn btn-danger btn-xs" ng-click="">Remove</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="modal-footer" ng-if="!fbc.loading">
+	<button type="button" class="btn btn-primary" ng-disabled="form.$invalid || fbc.selectedListings.length<2" ng-click="fbc.ok()">Create</button>
+	<a class="btn btn-default" ng-click="$dismiss()">Cancel</a>
+</div>
+<div class="modal-footer" ng-if="fbc.loading">
+	<i class="fa fa-spin fa-spinner"></i> Loading
+</div>

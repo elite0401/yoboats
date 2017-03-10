@@ -1,0 +1,38 @@
+<nav class="navbar navbar-inverse navbar-static-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin_menu_nav">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand">Yoboats</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="navbar-text">Welcome <span style="font-weight:bold">{{a.user.profile.name}}</span></li>
+				<li><a ng-click="a.logout()" class="i-do-something"><i class="fa fa-sign-out"></i> Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="collapse navbar-collapse col-sm-3 col-md-2 sidebar" id="admin_menu_nav">
+			<ul class="nav nav-sidebar">
+				<li><a ui-sref="admin.index">Overview</a></li>
+				<li><a ui-sref="admin.users-manage">Users manage</a></li>
+				<li><a ui-sref="admin.ads-manage">Ads manage</a></li>
+				<li><a ui-sref="admin.social-networks">Social settings</a></li>
+				<li><a ui-sref="admin.ad-form-settings">Ads form settings</a></li>
+				<li><a ui-sref="admin.payment-settings">Payment plans settings</a></li>
+				<li><a ui-sref="admin.facebook-ads">Facebook ads</a></li>
+				<li><a ui-sref="landing.landing">Back to Website</a></li>
+			</ul>
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<div ui-view class="admin-section"></div>
+		</div>
+	</div>
+</div>

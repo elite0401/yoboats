@@ -1,0 +1,15 @@
+<h2>Social networks settings</h2>
+<div class="col-sm-12">
+	<form class="form-horizontal">
+		<div class="form-group" ng-repeat="network in sn.socialNetworks">
+			<div class="col-sm-2 text-right">
+				<toggle-switch ng-model="network.active" ng-click="sn.save(true)"></toggle-switch>
+			</div>
+			<label class="col-sm-2 control-label">{{network.name | capitalize}}</label>
+			<div class="col-sm-8">
+				<input type="text" ng-disabled="!network.active" class="form-control" placeholder="URL Address" ng-model="network.url" />
+			</div>
+		</div>
+		<button class="btn btn-success pull-right" ng-click="sn.save()">Save</button>
+	</form>
+</div>

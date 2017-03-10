@@ -1,0 +1,21 @@
+<div class="panel-heading">
+	<h3 class="panel-title">Register</h3>
+</div>
+<div class="panel-body" ng-form="form">
+	<div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+		<input type="text" name="name" class="form-control" placeholder="Full name" required ng-model="user.name" autocomplete="off" />
+	</div>
+	<div class="form-group" ng-class="{'has-error': form.email.$invalid}">
+		<input type="email" name="email" class="form-control" placeholder="E-mail" required ng-model="user.email" autocomplete="off" />
+	</div>
+	<div class="form-group" ng-class="{'has-error': form.password.$invalid}">
+		<input type="password" name="password" class="form-control" placeholder="Password" required ng-model="user.password" />
+	</div>
+	<div class="form-group" ng-class="{'has-error': form.password2.$invalid}">
+		<input type="password" name="password2" class="form-control" placeholder="Repeat password" required ng-model="passwordRepeat" match="user.password" />
+	</div>
+
+	<button type="button" class="btn btn-lg btn-success btn-block" ng-disabled="form.$invalid" ng-click="register()">Register</button>
+	<hr/>
+	<a class="btn btn-lg btn-primary btn-block" ng-click="fbLogin()">Register with Facebook</a>
+</div>

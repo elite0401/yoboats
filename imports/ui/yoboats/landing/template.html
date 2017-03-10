@@ -1,0 +1,92 @@
+<div class="container-fluid layout-stretch">
+	<!-- Navbar -->
+	<nav class="row">
+		<div class="col-sm-4 landing">
+			<a ui-sref="landing.landing" ui-sref-opts="{reload: true}"><img src="/logo.png" class="brand-img"></a>
+		</div>
+		<div class="col-sm-8 landing-top-search">
+			<ul id="logged-in-nav" class="row-eq-height equal-space-nav nav" ng-if="l.currentUser">
+				<li ng-if="l.isAdmin"><a ui-sref="admin.index"><i class="fa fa-gear"></i> <p>Administration</p></a></li>
+				<li ng-if="!l.isAdmin"><a ui-sref="my.listing.index"><i class="fa fa-list"></i> <p>My Listings</p></a></li>
+				<li><a ui-sref="my.listing.create"><i class="fa fa-plus"></i> <p>Place Ad</p></a></li>
+				<li><a ui-sref="my.profile"><i class="fa fa-user"></i> <p>Profile</p></a></li>
+				<li ng-if="!l.isAdmin"><a ui-sref="my.billing"><i class="fa fa-credit-card"></i> <p>Billing</p></a></li>
+				<li><a ng-click="l.logout()" class="i-do-something"><i class="fa fa-sign-out"></i> <p>Logout</p></a></li>
+			</ul>
+		</div>
+		<div class="col-sm-12">
+			<nav class="navbar">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNav">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="mainNav">
+					<ul class="nav navbar-nav bar-custom">
+						<li><a ui-sref="landing.landing">Home</a></li>
+						<li ng-if="!l.currentUser"><a ui-sref="login.register">Register</a></li>
+						<li>
+							<span style="padding: 0.4em; line-height: 20px; position: relative; display: block">
+								How it works?
+								<a ui-sref="landing.how-it-works-buyers">Buyers</a>
+								/
+								<a ui-sref="landing.how-it-works-sellers">Sellers</a>
+							</span>
+						</li>
+						<li><a ui-sref="landing.contact">Contact</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div class="login-arrow" ng-if="!l.currentUser">
+			<a ui-sref="login.login">Log-in</a>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div ui-view></div>
+	</div>
+
+	<div class="row footer">
+		<ul class="nav navbar-nav footer-nav col-sm-12">
+			<li>
+				<a ui-sref="landing.landing">
+					<i class="fa fa-home"></i>
+					<p>Home</p>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="my.listing.create">
+					<i class="fa fa-list"></i>
+					<p>Place Ad</p>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="my.favorites.index" class="i-do-something">
+					<i class="fa fa-star-o"></i>
+					<p >Favorites</p>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="landing.contact">
+					<i class="fa fa-phone"></i>
+					<p>Contact</p>
+				</a>
+			</li>
+		</ul>
+		<div class="col-sm-12">
+			<figure>
+				<img src="/img/logo.png" alt="footer image">
+			</figure>
+		</div>
+		<div class="col-sm-8 col-sm-offset-2">
+			<ul id="social-icons-nav" class="nav navbar-nav row-eq-height footer-nav equal-space-nav col-sm-12">
+				<li ng-repeat="sn in l.socialNetworks" ng-if="sn.active">
+					<a href="{{sn.url}}"><i class="{{sn.icon}}"></i></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

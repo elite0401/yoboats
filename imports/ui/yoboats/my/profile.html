@@ -1,0 +1,33 @@
+<h1 class="page-header">Profile Page</h1>
+<div class="col-xs-12 col-sm-8">
+    <form class="form-horizontal" name="form">
+        <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+            <label class="control-label">Name:</label>
+            <input ng-model="p.newName" name="name" type="text" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <p class="form-control-static">{{p.currentUser.emails[0].address}}</p>
+        </div>
+        <button class="btn btn-primary btn-xs" ng-click="p.passwordChange = !p.passwordChange">Change password</button>
+        <hr>
+        <div ng-if="p.passwordChange">
+            <div class="form-group" ng-class="{'has-error': form.passwordold.$invalid}">
+                <label class="control-label">Password:</label>
+                <input name="passwordold" ng-model="p.password.oldPass" type="password" class="form-control" required />
+            </div>
+            <div class="form-group" ng-class="{'has-error': form.passwordnew.$invalid}">
+                <label class="control-label">New Password:</label>
+                <input name="passwordnew" ng-model="p.password.newPass" type="password" match="p.password.oldPass" not-match="true" class="form-control" required />
+            </div>
+            <div class="form-group" ng-class="{'has-error': form.passwordconfirm.$invalid}">
+                <label class="control-label">Confirm New Password:</label>
+                <input name="passwordconfirm" ng-model="p.password.newPassConfirm" type="password" match="p.password.newPass" class="form-control" required />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-xs-12 col-sm-2 col-sm-offset-2">
+    <a class="btn btn-lg btn-warning btn-block i-do-something" ui-sref="my.favorites.index"><i class="fa fa-star"></i> Favorites</a>
+    <button class="btn btn-lg btn-success btn-block" ng-click="p.save()" ng-disabled="form.$invalid || form.$pristine">Save</button>
+</div>
