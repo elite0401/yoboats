@@ -299,9 +299,7 @@ if(Meteor.isServer) {
 					{$match: query},
 					{$sort: options.sort},
 					{$skip: options.skip},
-					{$limit: options.limit},
-//					{$lookup: {from: 'plans', localField: 'profile.plan', foreignField: '_id', as: 'plan'}},
-//					{$unwind: {path: '$plan', preserveNullAndEmptyArrays: true}}
+					{$limit: options.limit}
 				])
 			};
 		}
