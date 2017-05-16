@@ -96,7 +96,6 @@ if(Meteor.isServer) {
 
 			if(!query.userId) {
 				query.published = true;
-				//query.authorized = true;
 			}
 
 			return {
@@ -112,7 +111,6 @@ if(Meteor.isServer) {
 
 			if(!query.userId) {
 				query.published = true;
-				//query.authorized = true;
 			}
 
 			return Listings.find(query, options).fetch().map(item => {
