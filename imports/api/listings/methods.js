@@ -236,7 +236,6 @@ if(Meteor.isServer) {
 					}
 				});
 			}
-
 			Listings.remove(_id);
 		}
 	});

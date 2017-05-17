@@ -16,7 +16,6 @@ angular.module(name, [])
 				if(console && console.warn) {
 					console.warn('match validation requires ngModel to be on the element');
 				}
-
 				return;
 			}
 
